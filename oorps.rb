@@ -7,6 +7,17 @@ class Hand
     @value = v
   end
 
+  def display_winning_message
+    case @value
+    when 'p'
+      puts "Paper wraps rock!"
+    when 'r'
+      puts "Rock smashes scissors!"
+    when 's'
+      puts "Scissors cuts paper!"
+    end
+  end
+
   def <=>(another_hand)
     if @value == another_hand.value
       0
@@ -30,7 +41,7 @@ class Player
   end
 
   def to_s
-    "#{name} currently has a choice of #{self.hand.value}."
+    "#{name} chooses #{self.hand.value}."
   end
 end
 
@@ -57,7 +68,9 @@ class Game
   attr_reader :player, :computer
 
   def initialize
-    @player = Human.new('Bob')
+    print 'Name? >'
+    name = gets.chomp.split.map(&:capitalize).join(' ')
+    @player = Human.new(name)
     @computer = Computer.new('R2D2')
   end
 
@@ -65,9 +78,13 @@ class Game
     if player.hand == computer.hand
       puts "TIE"
     elsif player.hand > computer.hand
-      puts "#{player.name} wins."
+      puts player
+      puts computer
+      player.hand.display_winning_message
     else
-      puts "#{computer.name} wins."
+      computer.hand.display_winning_message
+      puts player
+      puts computer
     end
   end
 
@@ -75,8 +92,6 @@ class Game
     player.pick_hand
     computer.pick_hand
     compare_hands
-    puts player
-    puts computer
   end
 
 end
