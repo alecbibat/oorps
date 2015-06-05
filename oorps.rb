@@ -24,7 +24,7 @@ end
 
 class Computer < Player
   def pick_hand
-    choice = Game::CHOICES.keys.sample
+    self.choice = Game::CHOICES.keys.sample
   end
 end
 
